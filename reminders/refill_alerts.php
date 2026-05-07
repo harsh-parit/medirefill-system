@@ -193,15 +193,51 @@ $result = mysqli_query($conn, $query);
 
                     <td>
 
-                        <button
-                            class="btn btn-primary btn-sm"
-                            onclick="sendReminder()">
+<?php
 
-                            Send Reminder
+$phone =
+preg_replace(
+    '/[^0-9]/',
+    '',
+    $row['customer_phone']
+);
 
-                        </button>
+if(strlen($phone) == 10){
 
-                    </td>
+    $phone = "91".$phone;
+
+}
+
+$message =
+
+"Hello ".$row['customer_name'].
+
+", your refill for ".$row['medicine_name'].
+
+" is due on ".$row['next_refill_date'].
+
+". Please visit MediRefill Pharmacy.";
+
+$encoded_message =
+urlencode($message);
+
+?>
+
+<a
+
+href="https://wa.me/<?php echo $phone; ?>?text=<?php echo $encoded_message; ?>"
+
+target="_blank"
+
+class="btn btn-success btn-sm">
+
+    <i class="fa-brands fa-whatsapp"></i>
+
+    Send WhatsApp
+
+</a>
+
+</td>
 
                 </tr>
 
