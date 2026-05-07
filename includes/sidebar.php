@@ -1,53 +1,182 @@
+<?php include 'config.php'; ?>
+
 <div class="sidebar">
 
+    <!-- LOGO -->
+
     <div class="logo">
-        <h2><i class="fa-solid fa-capsules"></i> MediRefill</h2>
+        <h2>
+            <i class="fa-solid fa-capsules"></i>
+            MediRefill
+        </h2>
     </div>
+
+    <!-- MENU -->
 
     <ul class="menu">
 
+        <!-- DASHBOARD -->
+
         <li>
-            <a href="../dashboard.php">
+            <a href="<?php echo BASE_URL; ?>dashboard.php">
+
                 <i class="fa-solid fa-house"></i>
+
                 Dashboard
+
             </a>
         </li>
 
-        <li>
-            <a href="../customers/view_customers.php">
-                <i class="fa-solid fa-users"></i>
-                Customers
-            </a>
+        <!-- CUSTOMERS -->
+
+        <li class="dropdown-btn">
+
+            <i class="fa-solid fa-users"></i>
+
+            Customers
+
+            <span>▼</span>
+
         </li>
 
-        <li>
-            <a href="../medicines/view_medicines.php">
-                <i class="fa-solid fa-capsules"></i>
-                Medicines
-            </a>
+        <ul class="submenu">
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>customers/add.php">
+
+                    Add Customer
+
+                </a>
+            </li>
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>customers/view.php">
+
+                    View Customers
+
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- MEDICINES -->
+
+        <li class="dropdown-btn">
+
+            <i class="fa-solid fa-capsules"></i>
+
+            Medicines
+
+            <span>▼</span>
+
         </li>
 
-        <li>
-            <a href="../prescriptions/add_prescription.php">
-                <i class="fa-solid fa-file-medical"></i>
-                Prescriptions
-            </a>
+        <ul class="submenu">
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>medicines/add.php">
+
+                    Add Medicine
+
+                </a>
+            </li>
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>medicines/view.php">
+
+                    View Medicines
+
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- PRESCRIPTIONS -->
+
+        <li class="dropdown-btn">
+
+            <i class="fa-solid fa-file-medical"></i>
+
+            Prescriptions
+
+            <span>▼</span>
+
         </li>
 
+        <ul class="submenu">
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>prescriptions/add.php">
+
+                    Add Prescription
+
+                </a>
+            </li>
+
+            <li>
+                <a href="<?php echo BASE_URL; ?>prescriptions/view.php">
+
+                    View Prescriptions
+
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- REFILL ALERTS -->
+
         <li>
-            <a href="#">
+            <a href="<?php echo BASE_URL; ?>dashboard.php">
+
                 <i class="fa-solid fa-bell"></i>
+
                 Refill Alerts
+
             </a>
         </li>
 
+        <!-- LOGOUT -->
+
         <li>
-            <a href="../logout.php">
+            <a href="<?php echo BASE_URL; ?>logout.php">
+
                 <i class="fa-solid fa-right-from-bracket"></i>
+
                 Logout
+
             </a>
         </li>
 
     </ul>
 
 </div>
+
+<!-- SIDEBAR DROPDOWN SCRIPT -->
+
+<script>
+
+const dropdowns = document.querySelectorAll(".dropdown-btn");
+
+dropdowns.forEach(dropdown => {
+
+    dropdown.addEventListener("click", () => {
+
+        dropdown.classList.toggle("active");
+
+        const submenu = dropdown.nextElementSibling;
+
+        if(submenu.style.display === "block"){
+
+            submenu.style.display = "none";
+
+        } else {
+
+            submenu.style.display = "block";
+
+        }
+
+    });
+
+});
+
+</script>
