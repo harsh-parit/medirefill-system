@@ -25,11 +25,11 @@ if(isset($_POST['add_medicine'])){
 
     if($result){
 
-    $success = "Customer Added Successfully";
+    $success = "Medicine Added Successfully";
 
 } else {
 
-    $error = "Failed To Add Customer";
+    $error = "Failed To Add Medicine";
 
 }
 
