@@ -2,6 +2,9 @@
 
 include "../includes/db.php";
 
+$success = "";
+$error = "";
+
 if(isset($_POST['add_medicine'])){
 
     $medicine_name = $_POST['medicine_name'];
@@ -22,18 +25,14 @@ if(isset($_POST['add_medicine'])){
 
     if($result){
 
-        echo "<script>
-        alert('Medicine Added Successfully');
-        window.location.href='add.php';
-        </script>";
+    $success = "Customer Added Successfully";
 
-    } else {
+} else {
 
-        echo "<script>
-        alert('Failed To Add Medicine');
-        </script>";
+    $error = "Failed To Add Customer";
 
-    }
+}
+
 
 }
 
@@ -49,6 +48,29 @@ if(isset($_POST['add_medicine'])){
     <div class="form-container">
 
         <h3 class="mb-4">Add Medicine</h3>
+        <?php if($success != ""){ ?>
+
+    <div
+        id="success-alert"
+        class="alert alert-success">
+
+        <?php echo $success; ?>
+
+    </div>
+
+<?php } ?>
+
+<?php if($error != ""){ ?>
+
+    <div
+        id="error-alert"
+        class="alert alert-danger">
+
+        <?php echo $error; ?>
+
+    </div>
+
+<?php } ?>
 
         <form action="" method="POST">
 
@@ -129,6 +151,36 @@ if(isset($_POST['add_medicine'])){
     </div>
 
 </div>
+<script>
 
+setTimeout(() => {
+
+    const successAlert =
+    document.getElementById("success-alert");
+
+    if(successAlert){
+
+        successAlert.style.display = "none";
+
+    }
+
+}, 3000);
+
+
+
+setTimeout(() => {
+
+    const errorAlert =
+    document.getElementById("error-alert");
+
+    if(errorAlert){
+
+        errorAlert.style.display = "none";
+
+    }
+
+}, 3000);
+
+</script>
 </body>
 </html>
