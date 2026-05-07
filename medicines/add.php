@@ -76,47 +76,89 @@ if(isset($_POST['add_medicine'])){
 
             <div class="row">
 
-                <div class="col-md-6 mb-3">
+    <div class="col-md-6">
 
-                    <label class="mb-2">Medicine Name</label>
+        <label>Medicine Name</label>
 
-                    <div class="col-md-6">
-
-    <label>Medicine Type</label>
-
-    <select
-        name="medicine_type"
+        <input
+        type="text"
+        name="medicine_name"
         class="form-control">
 
-        <option value="Tablet">
-            Tablet
-        </option>
+    </div>
 
-        <option value="Capsule">
-            Capsule
-        </option>
+    <div class="col-md-6">
 
-        <option value="Syrup">
-            Syrup
-        </option>
+        <label>Stock Quantity</label>
 
-        <option value="Injection">
-            Injection
-        </option>
+        <input
+        type="number"
+        name="stock_quantity"
+        class="form-control">
 
-        <option value="Syringe">
-            Syringe
-        </option>
+    </div>
 
-        <option value="Insulin">
-            Insulin
-        </option>
+</div>
 
-        <option value="Medical Device">
-            Medical Device
-        </option>
 
-    </select>
+<div class="row mt-3">
+
+    <div class="col-md-6">
+
+        <label>Medicine Type</label>
+
+        <select
+        name="category"
+        class="form-control">
+
+            <option value="Tablet">Tablet</option>
+            <option value="Capsule">Capsule</option>
+            <option value="Injection">Injection</option>
+            <option value="Syrup">Syrup</option>
+            <option value="Medical Equipment">Medical Equipment</option>
+
+        </select>
+
+    </div>
+
+</div>
+
+
+<div class="row mt-3">
+
+    <div class="col-md-4">
+
+        <label>Expiry Date</label>
+
+        <input
+        type="date"
+        name="expiry_date"
+        class="form-control">
+
+    </div>
+
+    <div class="col-md-4">
+
+        <label>Refill Days</label>
+
+        <input
+        type="number"
+        name="refill_days"
+        class="form-control">
+
+    </div>
+
+    <div class="col-md-4">
+
+        <label>Price</label>
+
+        <input
+        type="number"
+        step="0.01"
+        name="price"
+        class="form-control">
+
+    </div>
 
 </div>
 
