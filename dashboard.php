@@ -1,9 +1,12 @@
 <?php
 
 include 'includes/auth.php';
-include "includes/db.php";
+include 'includes/db.php';
 
 
+/* =========================
+   DASHBOARD COUNTS
+========================= */
 
 $total_customers_query =
 "SELECT COUNT(*) AS total_customers FROM customers";
@@ -53,6 +56,53 @@ mysqli_query($conn, $low_stock_query);
 $low_stock =
 mysqli_fetch_assoc($low_stock_result)['low_stock'];
 
+
+
+/* =========================
+   UPCOMING REFILLS
+========================= */
+
+$upcoming_refills_query = "
+
+SELECT prescriptions.*,
+customers.name AS customer_name,
+medicines.medicine_name AS medicine_name
+
+FROM prescriptions
+
+JOIN customers
+ON prescriptions.customer_id = customers.customer_id
+
+JOIN medicines
+ON prescriptions.medicine_id = medicines.medicine_id
+
+ORDER BY prescriptions.next_refill_date ASC
+
+LIMIT 5
+
+";
+
+$upcoming_refills_result =
+mysqli_query($conn, $upcoming_refills_query);
+
+
+
+/* =========================
+   LOW STOCK MEDICINES
+========================= */
+
+$low_stock_medicines_query = "
+
+SELECT *
+FROM medicines
+WHERE stock_quantity <= 10
+ORDER BY stock_quantity ASC
+
+";
+
+$low_stock_medicines_result =
+mysqli_query($conn, $low_stock_medicines_query);
+
 ?>
 
 <?php include "includes/header.php"; ?>
@@ -67,43 +117,27 @@ mysqli_fetch_assoc($low_stock_result)['low_stock'];
     <div class="dashboard-cards">
 
         <div class="card-box blue">
-
             <i class="fa-solid fa-users text-primary"></i>
-
             <h2><?php echo $total_customers; ?></h2>
-
             <p>Total Customers</p>
-
         </div>
 
         <div class="card-box green">
-
             <i class="fa-solid fa-capsules text-success"></i>
-
             <h2><?php echo $total_medicines; ?></h2>
-
             <p>Total Medicines</p>
-
         </div>
 
         <div class="card-box orange">
-
             <i class="fa-solid fa-calendar-check text-warning"></i>
-
             <h2><?php echo $today_refills; ?></h2>
-
             <p>Today's Refills</p>
-
         </div>
 
         <div class="card-box red">
-
             <i class="fa-solid fa-triangle-exclamation text-danger"></i>
-
             <h2><?php echo $low_stock; ?></h2>
-
             <p>Low Stock Alerts</p>
-
         </div>
 
     </div>
@@ -132,53 +166,79 @@ mysqli_fetch_assoc($low_stock_result)['low_stock'];
 
                 <tbody>
 
-                    <tr>
-                        <td>Raj</td>
-                        <td>Paracetamol</td>
-                        <td>07-05-2026</td>
-                        <td>
-                            <span class="badge-pending">
-                                Pending
-                            </span>
-                        </td>
-                        <td>
-                            <button class="btn-custom btn-view">
-                                View
-                            </button>
-                        </td>
-                    </tr>
+                    <?php
+                    if(mysqli_num_rows($upcoming_refills_result) > 0){
 
-                    <tr>
-                        <td>Rahul</td>
-                        <td>Vitamin D</td>
-                        <td>08-05-2026</td>
-                        <td>
-                            <span class="badge-completed">
-                                Completed
-                            </span>
-                        </td>
-                        <td>
-                            <button class="btn-custom btn-view">
-                                View
-                            </button>
-                        </td>
-                    </tr>
+                        while($row = mysqli_fetch_assoc($upcoming_refills_result)){
 
-                    <tr>
-                        <td>Anjali</td>
-                        <td>Insulin</td>
-                        <td>05-05-2026</td>
-                        <td>
-                            <span class="badge-overdue">
+                            if($row['next_refill_date'] < $today){
+
+                                $status =
+                                "<span class='badge bg-danger'>
                                 Overdue
-                            </span>
-                        </td>
+                                </span>";
+
+                            } elseif($row['next_refill_date'] == $today){
+
+                                $status =
+                                "<span class='badge bg-warning text-dark'>
+                                Due Today
+                                </span>";
+
+                            } else {
+
+                                $status =
+                                "<span class='badge bg-success'>
+                                Upcoming
+                                </span>";
+
+                            }
+                    ?>
+
+                    <tr>
+
                         <td>
-                            <button class="btn-custom btn-view">
-                                View
-                            </button>
+                            <?php echo $row['customer_name']; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $row['medicine_name']; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $row['next_refill_date']; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $status; ?>
+                        </td>
+
+                        <td>
+
+                            <a href="prescriptions/view.php"
+                               class="btn btn-sm btn-primary">
+
+                               View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <?php
+                        }
+
+                    } else {
+                    ?>
+
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No Upcoming Refills
                         </td>
                     </tr>
+
+                    <?php } ?>
 
                 </tbody>
 
@@ -188,7 +248,7 @@ mysqli_fetch_assoc($low_stock_result)['low_stock'];
 
     </div>
 
-    <!-- LOW STOCK -->
+    <!-- LOW STOCK MEDICINES -->
 
     <div class="table-section">
 
@@ -210,25 +270,45 @@ mysqli_fetch_assoc($low_stock_result)['low_stock'];
 
                 <tbody>
 
+                    <?php
+                    if(mysqli_num_rows($low_stock_medicines_result) > 0){
+
+                        while($medicine = mysqli_fetch_assoc($low_stock_medicines_result)){
+                    ?>
+
                     <tr>
-                        <td>Amoxicillin</td>
-                        <td>5</td>
+
                         <td>
-                            <span class="badge-overdue">
+                            <?php echo $medicine['medicine_name']; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $medicine['stock_quantity']; ?>
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
                                 LOW STOCK
                             </span>
+
+                        </td>
+
+                    </tr>
+
+                    <?php
+                        }
+
+                    } else {
+                    ?>
+
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            No Low Stock Medicines
                         </td>
                     </tr>
 
-                    <tr>
-                        <td>Dolo 650</td>
-                        <td>3</td>
-                        <td>
-                            <span class="badge-overdue">
-                                LOW STOCK
-                            </span>
-                        </td>
-                    </tr>
+                    <?php } ?>
 
                 </tbody>
 
