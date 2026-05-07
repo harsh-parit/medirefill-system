@@ -131,7 +131,7 @@
 
         <li>
 
-            <a href="<?php echo BASE_URL; ?>dashboard.php">
+            <a href="<?php echo BASE_URL; ?>reminders/refill_alerts.php">
 
                 <i class="fa-solid fa-bell"></i>
 
