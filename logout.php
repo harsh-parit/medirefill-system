@@ -4,6 +4,8 @@ session_start();
 
 session_destroy();
 
-header("Location: login.php");
+include 'includes/config.php';
+
+header("Location: " . BASE_URL . "login.php");
 
 ?>

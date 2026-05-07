@@ -17,7 +17,9 @@ if(mysqli_num_rows($result) > 0){
 
     $_SESSION['admin'] = $email;
 
-    header("Location: dashboard.php");
+    include 'includes/config.php';
+    
+    header("Location: " . BASE_URL . "dashboard.php");
 
 } else {
 
