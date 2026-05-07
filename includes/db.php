@@ -2,15 +2,15 @@
 
 $conn = mysqli_connect(
 
-    getenv("mysql.railway.internal"),
+    getenv("DB_HOST"),
 
-    getenv("root"),
+    getenv("DB_USER"),
 
-    getenv("BIZwIvFtrbsQGALnoYPZjMUdCLHlekvw"),
+    getenv("DB_PASS"),
 
-    getenv("railway"),
+    getenv("DB_NAME"),
 
-    getenv("3306")
+    getenv("DB_PORT")
 
 );
 
