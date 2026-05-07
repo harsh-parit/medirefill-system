@@ -1,18 +1,23 @@
 <?php
 
 $conn = mysqli_connect(
-    getenv("DB_HOST"),
 
-    getenv("DB_USER"),
+    getenv("mysql.railway.internal"),
 
-    getenv("DB_PASS"),
+    getenv("root"),
 
-    getenv("DB_NAME")
+    getenv("BIZwIvFtrbsQGALnoYPZjMUdCLHlekvw"),
+
+    getenv("railway"),
+
+    getenv("3306")
 
 );
 
 if(!$conn){
+
     die("Database Connection Failed");
+
 }
 
 ?>
