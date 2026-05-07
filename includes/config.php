@@ -1,5 +1,8 @@
 <?php
 
-define('BASE_URL', 'https://medirefill-system.onrender.com');
+define(
+    "BASE_URL",
+    "https://medirefill-system.onrender.com/"
+);
 
 ?>
