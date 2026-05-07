@@ -653,10 +653,6 @@ label{
         padding:14px;
     }
 
-    .menu li a span{
-        display:none;
-    }
-
     .content{
         margin-left:80px;
         padding:15px;
@@ -694,64 +690,54 @@ label{
 
 }
 
-.submenu {
-    display: none;
-    margin-left: 15px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-}
+/* =========================
+   SIMPLE SIDEBAR SUBMENU
+========================= */
 
-.submenu li {
-    list-style: none;
-    margin: 8px 0;
-}
-
-.submenu li a {
-    text-decoration: none;
-    color: #ddd;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.submenu li a:hover {
-    color: #fff;
-}
-
-.dropdown-btn {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dropdown-btn span {
-    font-size: 12px;
-}
-
-.dropdown-btn{
+.menu-title{
     color:#cbd5e1;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    gap:14px;
     padding:14px 18px;
     border-radius:14px;
-    transition:0.3s ease;
+    cursor:pointer;
     font-size:16px;
     font-weight:500;
-    cursor:pointer;
-    margin-bottom:5px;
+    transition:0.3s ease;
 }
 
-.dropdown-btn:hover{
+.menu-title:hover{
     background:#2563eb;
     color:white;
 }
 
-.dropdown-btn i{
-    margin-right:12px;
-    font-size:18px;
+.submenu{
+    margin-left:20px;
+    margin-top:5px;
+    display:none;
 }
 
-.dropdown-btn span{
-    font-size:12px;
+.has-submenu:hover .submenu{
+    display:block;
+}
+
+.submenu li{
+    list-style:none;
+    margin-bottom:8px;
+}
+
+.submenu li a{
+    text-decoration:none;
+    color:#cbd5e1;
+    display:block;
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:14px;
+    transition:0.3s ease;
+}
+
+.submenu li a:hover{
+    background:#1e40af;
+    color:white;
 }

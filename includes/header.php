@@ -1,3 +1,5 @@
+<?php include_once 'config.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,13 +20,13 @@
 
     <!-- YOUR CUSTOM CSS -->
 
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/add.css">
-    <link rel="stylesheet" href="../assets/css/edit.css">
-    <link rel="stylesheet" href="../assets/css/view.css">
-    <link rel="stylesheet" href="../assets/css/delete.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
-    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/add.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/edit.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/view.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/delete.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/sidebar.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/navbar.css">
 </head>
 
 <body>

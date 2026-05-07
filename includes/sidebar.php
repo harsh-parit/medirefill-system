@@ -1,182 +1,162 @@
-<?php include 'config.php'; ?>
+<?php include_once 'config.php'; ?>
 
 <div class="sidebar">
 
-    <!-- LOGO -->
-
     <div class="logo">
+
         <h2>
             <i class="fa-solid fa-capsules"></i>
             MediRefill
         </h2>
-    </div>
 
-    <!-- MENU -->
+    </div>
 
     <ul class="menu">
 
         <!-- DASHBOARD -->
 
         <li>
+
             <a href="<?php echo BASE_URL; ?>dashboard.php">
 
                 <i class="fa-solid fa-house"></i>
 
-                Dashboard
+                <span>Dashboard</span>
 
             </a>
+
         </li>
 
         <!-- CUSTOMERS -->
 
-        <li class="dropdown-btn">
+        <li class="has-submenu">
 
-            <i class="fa-solid fa-users"></i>
+            <div class="menu-title">
 
-            Customers
+                <i class="fa-solid fa-users"></i>
 
-            <span>▼</span>
+                <span>Customers</span>
+
+            </div>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>customers/add.php">
+
+                        Add Customer
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>customers/view.php">
+
+                        View Customers
+
+                    </a>
+                </li>
+
+            </ul>
 
         </li>
-
-        <ul class="submenu">
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>customers/add.php">
-
-                    Add Customer
-
-                </a>
-            </li>
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>customers/view.php">
-
-                    View Customers
-
-                </a>
-            </li>
-
-        </ul>
 
         <!-- MEDICINES -->
 
-        <li class="dropdown-btn">
+        <li class="has-submenu">
 
-            <i class="fa-solid fa-capsules"></i>
+            <div class="menu-title">
 
-            Medicines
+                <i class="fa-solid fa-capsules"></i>
 
-            <span>▼</span>
+                <span>Medicines</span>
+
+            </div>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>medicines/add.php">
+
+                        Add Medicine
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>medicines/view.php">
+
+                        View Medicines
+
+                    </a>
+                </li>
+
+            </ul>
 
         </li>
-
-        <ul class="submenu">
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>medicines/add.php">
-
-                    Add Medicine
-
-                </a>
-            </li>
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>medicines/view.php">
-
-                    View Medicines
-
-                </a>
-            </li>
-
-        </ul>
 
         <!-- PRESCRIPTIONS -->
 
-        <li class="dropdown-btn">
+        <li class="has-submenu">
 
-            <i class="fa-solid fa-file-medical"></i>
+            <div class="menu-title">
 
-            Prescriptions
+                <i class="fa-solid fa-file-medical"></i>
 
-            <span>▼</span>
+                <span>Prescriptions</span>
+
+            </div>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>prescriptions/add.php">
+
+                        Add Prescription
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo BASE_URL; ?>prescriptions/view.php">
+
+                        View Prescriptions
+
+                    </a>
+                </li>
+
+            </ul>
 
         </li>
-
-        <ul class="submenu">
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>prescriptions/add.php">
-
-                    Add Prescription
-
-                </a>
-            </li>
-
-            <li>
-                <a href="<?php echo BASE_URL; ?>prescriptions/view.php">
-
-                    View Prescriptions
-
-                </a>
-            </li>
-
-        </ul>
 
         <!-- REFILL ALERTS -->
 
         <li>
+
             <a href="<?php echo BASE_URL; ?>dashboard.php">
 
                 <i class="fa-solid fa-bell"></i>
 
-                Refill Alerts
+                <span>Refill Alerts</span>
 
             </a>
+
         </li>
 
         <!-- LOGOUT -->
 
         <li>
+
             <a href="<?php echo BASE_URL; ?>logout.php">
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
-                Logout
+                <span>Logout</span>
 
             </a>
+
         </li>
 
     </ul>
 
 </div>
-
-<!-- SIDEBAR DROPDOWN SCRIPT -->
-
-<script>
-
-const dropdowns = document.querySelectorAll(".dropdown-btn");
-
-dropdowns.forEach(dropdown => {
-
-    dropdown.addEventListener("click", () => {
-
-        dropdown.classList.toggle("active");
-
-        const submenu = dropdown.nextElementSibling;
-
-        if(submenu.style.display === "block"){
-
-            submenu.style.display = "none";
-
-        } else {
-
-            submenu.style.display = "block";
-
-        }
-
-    });
-
-});
-
-</script>
