@@ -1,3 +1,5 @@
+<?php include_once 'config.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,18 +20,13 @@
 
     <!-- MAIN CSS -->
 
-    <link rel="stylesheet" href="/medirefill-system/assets/css/style.css">
-
-    <!-- SIDEBAR CSS -->
-
-    <link rel="stylesheet" href="/medirefill-system/assets/css/sidebar.css">
-
-    <!-- NAVBAR CSS -->
-
-    <link rel="stylesheet" href="/medirefill-system/assets/css/navbar.css">
-
-    <!-- VIEW CSS -->
-    <link rel="stylesheet" href="/medirefill-system/assets/css/view.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/add.css">
+    <link rel="stylesheet" href="../assets/css/edit.css">
+    <link rel="stylesheet" href="../assets/css/view.css">
+    <link rel="stylesheet" href="../assets/css/delete.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
 </head>
 
 <body>
