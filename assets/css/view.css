@@ -233,3 +233,21 @@ body{
     }
 
 }
+
+.search-box{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.search-box input{
+    max-width:400px;
+}
+
+.search-box button{
+    padding:12px 25px;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+}

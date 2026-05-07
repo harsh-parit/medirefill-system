@@ -2,7 +2,37 @@
 
 include "../includes/db.php";
 
-$query = "SELECT * FROM customers ORDER BY customer_id DESC";
+$search = "";
+
+if(isset($_GET['search'])){
+
+    $search = $_GET['search'];
+
+    $query = "
+
+    SELECT * FROM customers
+
+    WHERE name LIKE '%$search%'
+
+    OR phone LIKE '%$search%'
+
+    ORDER BY customer_id DESC
+
+    ";
+
+} else {
+
+    $query = "
+
+    SELECT * FROM customers
+
+    ORDER BY customer_id DESC
+
+    ";
+
+}
+
+$result = mysqli_query($conn, $query);
 
 $result = mysqli_query($conn, $query);
 
@@ -20,6 +50,28 @@ $result = mysqli_query($conn, $query);
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h3>All Customers</h3>
+            <form method="GET" class="mb-4">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search by customer name or phone"
+            value="<?php echo $search; ?>">
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Search
+
+        </button>
+
+    </div>
+
+</form>
 
             <a href="add.php" class="btn btn-primary">
                 Add Customer
