@@ -19,7 +19,12 @@
     <!-- YOUR CUSTOM CSS -->
 
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="../assets/css/add.css">
+    <link rel="stylesheet" href="../assets/css/edit.css">
+    <link rel="stylesheet" href="../assets/css/view.css">
+    <link rel="stylesheet" href="../assets/css/delete.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
 </head>
 
 <body>
