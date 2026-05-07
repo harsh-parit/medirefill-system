@@ -88,6 +88,7 @@ $result = mysqli_query($conn, $query);
                     <tr>
                         <th>ID</th>
                         <th>Medicine Name</th>
+                        <th>Type</th>
                         <th>Stock</th>
                         <th>Expiry Date</th>
                         <th>Refill Days</th>
@@ -112,6 +113,8 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo $row['medicine_id']; ?></td>
 
                         <td><?php echo $row['medicine_name']; ?></td>
+
+                        <?php echo $row['medicine_type']; ?>
 
                         <td><?php echo $row['stock_quantity']; ?></td>
 

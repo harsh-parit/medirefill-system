@@ -1,26 +1,33 @@
 <?php
 
-include "../includes/auth.php";
 include "../includes/db.php";
 
 $query = "
 
-SELECT prescriptions.*,
+SELECT prescription_items.*,
+
+prescriptions.prescription_id,
 
 customers.name AS customer_name,
 customers.phone AS customer_phone,
 
-medicines.medicine_name AS medicine_name
+medicines.medicine_name
 
-FROM prescriptions
+FROM prescription_items
+
+JOIN prescriptions
+ON prescription_items.prescription_id =
+prescriptions.prescription_id
 
 JOIN customers
-ON prescriptions.customer_id = customers.customer_id
+ON prescriptions.customer_id =
+customers.customer_id
 
 JOIN medicines
-ON prescriptions.medicine_id = medicines.medicine_id
+ON prescription_items.medicine_id =
+medicines.medicine_id
 
-ORDER BY prescriptions.next_refill_date ASC
+ORDER BY prescription_items.next_refill_date ASC
 
 ";
 
@@ -33,141 +40,202 @@ $result = mysqli_query($conn, $query);
 
 <div class="content">
 
-    <?php include "../includes/navbar.php"; ?>
+<?php include "../includes/navbar.php"; ?>
 
-    <div class="table-section">
+<div class="table-section">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h3>Refill Alerts</h3>
+        <h3>
 
-        </div>
+            Refill Alerts
 
-        <div class="table-responsive">
+        </h3>
 
-            <table class="table table-hover">
+    </div>
 
-                <thead class="table-dark">
+    <div class="table-responsive">
 
-                    <tr>
+        <table class="table table-hover">
 
-                        <th>Customer</th>
-                        <th>Phone</th>
-                        <th>Medicine</th>
-                        <th>Refill Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
+            <thead class="table-dark">
 
-                    </tr>
+                <tr>
 
-                </thead>
+                    <th>Prescription ID</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Medicine</th>
+                    <th>Quantity</th>
+                    <th>Dosage/Day</th>
+                    <th>Next Refill</th>
+                    <th>Status</th>
+                    <th>Action</th>
 
-                <tbody>
+                </tr>
 
-                    <?php
+            </thead>
 
-                    if(mysqli_num_rows($result) > 0){
+            <tbody>
 
-                        while($row = mysqli_fetch_assoc($result)){
+                <?php
 
-                            $today = date('Y-m-d');
+                if(mysqli_num_rows($result) > 0){
 
-                            if($row['next_refill_date'] < $today){
+                    while($row =
+                    mysqli_fetch_assoc($result)){
 
-                                $status =
-                                "<span class='badge bg-danger'>
+                        $today = date('Y-m-d');
+
+
+
+                        if(
+                            $row['next_refill_date']
+                            <
+                            $today
+                        ){
+
+                            $status = "
+
+                            <span class='badge bg-danger'>
+
                                 Overdue
-                                </span>";
 
-                            } elseif($row['next_refill_date'] == $today){
+                            </span>
 
-                                $status =
-                                "<span class='badge bg-warning text-dark'>
-                                Due Today
-                                </span>";
-
-                            } else {
-
-                                $status =
-                                "<span class='badge bg-success'>
-                                Upcoming
-                                </span>";
-
-                            }
-
-                    ?>
-
-                    <tr>
-
-                        <td>
-
-                            <?php echo $row['customer_name']; ?>
-
-                        </td>
-
-                        <td>
-
-                            <?php echo $row['customer_phone']; ?>
-
-                        </td>
-
-                        <td>
-
-                            <?php echo $row['medicine_name']; ?>
-
-                        </td>
-
-                        <td>
-
-                            <?php echo $row['next_refill_date']; ?>
-
-                        </td>
-
-                        <td>
-
-                            <?php echo $status; ?>
-
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="btn btn-primary btn-sm"
-                                onclick="sendReminder()">
-
-                                Send Reminder
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <?php
+                            ";
 
                         }
 
-                    } else {
+                        elseif(
+                            $row['next_refill_date']
+                            ==
+                            $today
+                        ){
 
-                        echo "
-                        <tr>
-                            <td colspan='6' class='text-center'>
-                                No Refill Alerts Found
-                            </td>
-                        </tr>
-                        ";
+                            $status = "
+
+                            <span class='badge bg-warning text-dark'>
+
+                                Due Today
+
+                            </span>
+
+                            ";
+
+                        }
+
+                        else {
+
+                            $status = "
+
+                            <span class='badge bg-success'>
+
+                                Upcoming
+
+                            </span>
+
+                            ";
+
+                        }
+
+                ?>
+
+                <tr>
+
+                    <td>
+
+                        #<?php echo $row['prescription_id']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['customer_name']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['customer_phone']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['medicine_name']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['quantity']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['dosage_per_day']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['next_refill_date']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $status; ?>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-primary btn-sm"
+                            onclick="sendReminder()">
+
+                            Send Reminder
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <?php
 
                     }
 
-                    ?>
+                } else {
 
-                </tbody>
+                    echo "
 
-            </table>
+                    <tr>
 
-        </div>
+                        <td colspan='9' class='text-center'>
+
+                            No Refill Alerts Found
+
+                        </td>
+
+                    </tr>
+
+                    ";
+
+                }
+
+                ?>
+
+            </tbody>
+
+        </table>
 
     </div>
+
+</div>
 
 </div>
 
@@ -175,7 +243,9 @@ $result = mysqli_query($conn, $query);
 
 function sendReminder(){
 
-    alert("Reminder Sent Successfully!");
+    alert(
+    'Reminder Sent Successfully!'
+    );
 
 }
 

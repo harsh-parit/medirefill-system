@@ -2,6 +2,34 @@
 
 include "../includes/db.php";
 
+$id = $_GET['id'];
+
+
+
+/* =========================
+   FETCH PRESCRIPTION
+========================= */
+
+$prescription_query = "
+
+SELECT * FROM prescriptions
+
+WHERE prescription_id = '$id'
+
+";
+
+$prescription_result =
+mysqli_query($conn, $prescription_query);
+
+$prescription =
+mysqli_fetch_assoc($prescription_result);
+
+
+
+/* =========================
+   FETCH CUSTOMERS
+========================= */
+
 $customers_query =
 "SELECT * FROM customers";
 
@@ -9,6 +37,10 @@ $customers_result =
 mysqli_query($conn, $customers_query);
 
 
+
+/* =========================
+   FETCH MEDICINES
+========================= */
 
 $medicines_query =
 "SELECT * FROM medicines";
@@ -18,50 +50,82 @@ mysqli_query($conn, $medicines_query);
 
 
 
-if(isset($_POST['add_prescription'])){
+/* =========================
+   FETCH ITEMS
+========================= */
 
-    $customer_id = $_POST['customer_id'];
+$items_query = "
 
-    $start_date = $_POST['start_date'];
+SELECT * FROM prescription_items
+
+WHERE prescription_id = '$id'
+
+";
+
+$items_result =
+mysqli_query($conn, $items_query);
 
 
 
-    // INSERT INTO PRESCRIPTIONS TABLE
+/* =========================
+   UPDATE PRESCRIPTION
+========================= */
 
-    $prescription_query = "
+if(isset($_POST['update_prescription'])){
 
-    INSERT INTO prescriptions
-    (customer_id, start_date)
+    $customer_id =
+    $_POST['customer_id'];
 
-    VALUES
+    $start_date =
+    $_POST['start_date'];
 
-    ('$customer_id', '$start_date')
+
+
+    // UPDATE MASTER TABLE
+
+    $update_query = "
+
+    UPDATE prescriptions
+
+    SET
+
+    customer_id = '$customer_id',
+    start_date = '$start_date'
+
+    WHERE prescription_id = '$id'
 
     ";
 
-    $prescription_result =
-    mysqli_query($conn, $prescription_query);
+    mysqli_query($conn, $update_query);
 
 
 
-    // GET LAST INSERTED PRESCRIPTION ID
+    // DELETE OLD ITEMS
 
-    $prescription_id =
-    mysqli_insert_id($conn);
+    $delete_items_query = "
 
+    DELETE FROM prescription_items
 
+    WHERE prescription_id = '$id'
 
-    // GET ITEM ARRAYS
+    ";
 
-    $medicine_ids = $_POST['medicine_id'];
-
-    $quantities = $_POST['quantity'];
-
-    $dosages = $_POST['dosage_per_day'];
+    mysqli_query($conn, $delete_items_query);
 
 
 
-    // INSERT EACH ITEM
+    // INSERT UPDATED ITEMS
+
+    $medicine_ids =
+    $_POST['medicine_id'];
+
+    $quantities =
+    $_POST['quantity'];
+
+    $dosages =
+    $_POST['dosage_per_day'];
+
+
 
     for($i = 0; $i < count($medicine_ids); $i++){
 
@@ -76,7 +140,7 @@ if(isset($_POST['add_prescription'])){
 
 
 
-        // CALCULATE REFILL DATE
+        // REFILL CALCULATION
 
         $days =
         ceil($quantity / $dosage);
@@ -92,7 +156,7 @@ if(isset($_POST['add_prescription'])){
 
 
 
-        $item_query = "
+        $insert_item_query = "
 
         INSERT INTO prescription_items
 
@@ -107,7 +171,7 @@ if(isset($_POST['add_prescription'])){
         VALUES
 
         (
-            '$prescription_id',
+            '$id',
             '$medicine_id',
             '$quantity',
             '$dosage',
@@ -116,7 +180,7 @@ if(isset($_POST['add_prescription'])){
 
         ";
 
-        mysqli_query($conn, $item_query);
+        mysqli_query($conn, $insert_item_query);
 
     }
 
@@ -126,7 +190,7 @@ if(isset($_POST['add_prescription'])){
 
     <script>
 
-    alert('Prescription Added Successfully');
+    alert('Prescription Updated Successfully');
 
     window.location='view.php';
 
@@ -149,7 +213,7 @@ if(isset($_POST['add_prescription'])){
 
     <h3 class="mb-4">
 
-        Add Prescription
+        Edit Prescription
 
     </h3>
 
@@ -168,10 +232,6 @@ if(isset($_POST['add_prescription'])){
                     class="form-control"
                     required>
 
-                    <option value="">
-                        Select Customer
-                    </option>
-
                     <?php
 
                     while($customer =
@@ -180,7 +240,22 @@ if(isset($_POST['add_prescription'])){
                     ?>
 
                     <option
-                        value="<?php echo $customer['customer_id']; ?>">
+
+                        value="<?php echo $customer['customer_id']; ?>"
+
+                        <?php
+
+                        if(
+                            $customer['customer_id']
+                            ==
+                            $prescription['customer_id']
+                        ){
+                            echo "selected";
+                        }
+
+                        ?>
+
+                    >
 
                         <?php echo $customer['name']; ?>
 
@@ -200,6 +275,7 @@ if(isset($_POST['add_prescription'])){
                     type="date"
                     name="start_date"
                     class="form-control"
+                    value="<?php echo $prescription['start_date']; ?>"
                     required>
 
             </div>
@@ -209,6 +285,13 @@ if(isset($_POST['add_prescription'])){
         <!-- ITEMS -->
 
         <div id="items-container">
+
+            <?php
+
+            while($item =
+            mysqli_fetch_assoc($items_result)){
+
+            ?>
 
             <div class="item-box row mb-4">
 
@@ -220,10 +303,6 @@ if(isset($_POST['add_prescription'])){
                         name="medicine_id[]"
                         class="form-control"
                         required>
-
-                        <option value="">
-                            Select Medicine
-                        </option>
 
                         <?php
 
@@ -238,7 +317,22 @@ if(isset($_POST['add_prescription'])){
                         ?>
 
                         <option
-                            value="<?php echo $medicine['medicine_id']; ?>">
+
+                            value="<?php echo $medicine['medicine_id']; ?>"
+
+                            <?php
+
+                            if(
+                                $medicine['medicine_id']
+                                ==
+                                $item['medicine_id']
+                            ){
+                                echo "selected";
+                            }
+
+                            ?>
+
+                        >
 
                             <?php echo $medicine['medicine_name']; ?>
 
@@ -258,6 +352,7 @@ if(isset($_POST['add_prescription'])){
                         type="number"
                         name="quantity[]"
                         class="form-control"
+                        value="<?php echo $item['quantity']; ?>"
                         required>
 
                 </div>
@@ -270,6 +365,7 @@ if(isset($_POST['add_prescription'])){
                         type="number"
                         name="dosage_per_day[]"
                         class="form-control"
+                        value="<?php echo $item['dosage_per_day']; ?>"
                         required>
 
                 </div>
@@ -288,9 +384,11 @@ if(isset($_POST['add_prescription'])){
 
             </div>
 
+            <?php } ?>
+
         </div>
 
-        <!-- ADD ITEM BUTTON -->
+        <!-- ADD ITEM -->
 
         <button
             type="button"
@@ -303,14 +401,14 @@ if(isset($_POST['add_prescription'])){
 
         <br>
 
-        <!-- SUBMIT -->
+        <!-- UPDATE -->
 
         <button
             type="submit"
-            name="add_prescription"
+            name="update_prescription"
             class="btn btn-primary">
 
-            Save Prescription
+            Update Prescription
 
         </button>
 
@@ -320,7 +418,7 @@ if(isset($_POST['add_prescription'])){
 
 </div>
 
-<!-- DYNAMIC ITEM SCRIPT -->
+<!-- DYNAMIC SCRIPT -->
 
 <script>
 

@@ -2,21 +2,20 @@
 
 include "../includes/db.php";
 
-$query = "SELECT prescriptions.*,
+$query = "
 
-customers.name AS customer_name,
+SELECT prescriptions.*,
 
-medicines.medicine_name AS medicine_name
+customers.name AS customer_name
 
 FROM prescriptions
 
 JOIN customers
 ON prescriptions.customer_id = customers.customer_id
 
-JOIN medicines
-ON prescriptions.medicine_id = medicines.medicine_id
+ORDER BY prescriptions.prescription_id DESC
 
-ORDER BY prescriptions.prescription_id DESC";
+";
 
 $result = mysqli_query($conn, $query);
 
@@ -27,116 +26,216 @@ $result = mysqli_query($conn, $query);
 
 <div class="content">
 
-    <?php include "../includes/navbar.php"; ?>
+<?php include "../includes/navbar.php"; ?>
 
-    <div class="table-section">
+<div class="table-section">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h3>All Prescriptions</h3>
+        <h3>All Prescriptions</h3>
 
-            <a href="add.php" class="btn btn-primary">
-                Add Prescription
-            </a>
+        <a href="add.php" class="btn btn-primary">
 
-        </div>
+            Add Prescription
 
-        <div class="table-responsive">
+        </a>
 
-            <table class="table table-hover">
+    </div>
 
-                <thead class="table-dark">
+    <div class="table-responsive">
 
-                    <tr>
-                        <th>ID</th>
-                        <th>Customer</th>
-                        <th>Medicine</th>
-                        <th>Quantity</th>
-                        <th>Dosage/Day</th>
-                        <th>Start Date</th>
-                        <th>Next Refill</th>
-                        <th>Status</th>
-                    </tr>
+        <table class="table table-hover">
 
-                </thead>
+            <thead class="table-dark">
 
-                <tbody>
+                <tr>
 
-                    <?php
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Start Date</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                    <th>Action</th>
 
-                    if(mysqli_num_rows($result) > 0){
+                </tr>
 
-                        while($row = mysqli_fetch_assoc($result)){
+            </thead>
 
-                            $today = date('Y-m-d');
+            <tbody>
 
-                            if($row['next_refill_date'] < $today){
+                <?php
 
-                                $status = "<span class='badge bg-danger'>
-                                Overdue
-                                </span>";
+                if(mysqli_num_rows($result) > 0){
 
-                            } elseif($row['next_refill_date'] == $today){
+                    while($row = mysqli_fetch_assoc($result)){
 
-                                $status = "<span class='badge bg-warning text-dark'>
-                                Due Today
-                                </span>";
+                        $prescription_id =
+                        $row['prescription_id'];
 
-                            } else {
 
-                                $status = "<span class='badge bg-success'>
-                                Upcoming
-                                </span>";
 
-                            }
+                        // GET PRESCRIPTION ITEMS
 
-                    ?>
+                        $items_query = "
 
-                    <tr>
+                        SELECT prescription_items.*,
 
-                        <td><?php echo $row['prescription_id']; ?></td>
+                        medicines.medicine_name
 
-                        <td><?php echo $row['customer_name']; ?></td>
+                        FROM prescription_items
 
-                        <td><?php echo $row['medicine_name']; ?></td>
+                        JOIN medicines
+                        ON prescription_items.medicine_id =
+                        medicines.medicine_id
 
-                        <td><?php echo $row['quantity']; ?></td>
+                        WHERE prescription_items.prescription_id =
+                        '$prescription_id'
 
-                        <td><?php echo $row['dosage_per_day']; ?></td>
+                        ";
 
-                        <td><?php echo $row['start_date']; ?></td>
+                        $items_result =
+                        mysqli_query($conn, $items_query);
 
-                        <td><?php echo $row['next_refill_date']; ?></td>
 
-                        <td><?php echo $status; ?></td>
 
-                    </tr>
+                        $status =
+                        "<span class='badge bg-success'>
+                        Active
+                        </span>";
 
-                    <?php
+                ?>
+
+                <tr>
+
+                    <td>
+
+                        <?php echo $prescription_id; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['customer_name']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php echo $row['start_date']; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php
+
+                        while($item =
+                        mysqli_fetch_assoc($items_result)){
+
+                            echo "
+
+                            <div class='mb-2 p-2 border rounded'>
+
+                                <strong>
+
+                                ".$item['medicine_name']."
+
+                                </strong>
+
+                                <br>
+
+                                Qty:
+                                ".$item['quantity']."
+
+                                |
+
+                                Dosage:
+                                ".$item['dosage_per_day']."
+
+                                /day
+
+                                <br>
+
+                                Refill:
+                                ".$item['next_refill_date']."
+
+                            </div>
+
+                            ";
 
                         }
 
-                    } else {
+                        ?>
 
-                        echo "
-                        <tr>
-                            <td colspan='8' class='text-center'>
-                                No Prescriptions Found
-                            </td>
-                        </tr>
-                        ";
+                    </td>
+
+                    <td>
+
+                        <?php echo $status; ?>
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href='edit.php?id=<?php echo $prescription_id; ?>'
+
+                            class='btn btn-success btn-sm mb-2'>
+
+                            Edit
+
+                        </a>
+
+                        <br>
+
+                        <a
+                            href='delete.php?id=<?php echo $prescription_id; ?>'
+
+                            class='btn btn-danger btn-sm'
+
+                            onclick="return confirm(
+                            'Are you sure you want to delete this prescription?'
+                            )">
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                <?php
 
                     }
 
-                    ?>
+                } else {
 
-                </tbody>
+                    echo "
 
-            </table>
+                    <tr>
 
-        </div>
+                        <td colspan='6' class='text-center'>
+
+                            No Prescriptions Found
+
+                        </td>
+
+                    </tr>
+
+                    ";
+
+                }
+
+                ?>
+
+            </tbody>
+
+        </table>
 
     </div>
+
+</div>
 
 </div>
 

@@ -8,18 +8,18 @@ $error = "";
 if(isset($_POST['add_medicine'])){
 
     $medicine_name = $_POST['medicine_name'];
+    $medicine_type = $_POST['medicine_type'];
     $stock_quantity = $_POST['stock_quantity'];
     $expiry_date = $_POST['expiry_date'];
     $refill_days = $_POST['refill_days'];
     $price = $_POST['price'];
 
     $query = "INSERT INTO medicines
-    (medicine_name, stock_quantity, expiry_date, refill_days, price)
+    (medicine_name, medicine_type, stock_quantity, expiry_date, refill_days, price)
 
     VALUES
 
-    ('$medicine_name', '$stock_quantity',
-    '$expiry_date', '$refill_days', '$price')";
+    ('$medicine_name', '$medicine_type', '$stock_quantity', '$expiry_date', '$refill_days', '$price')";
 
     $result = mysqli_query($conn, $query);
 
@@ -79,6 +79,46 @@ if(isset($_POST['add_medicine'])){
                 <div class="col-md-6 mb-3">
 
                     <label class="mb-2">Medicine Name</label>
+
+                    <div class="col-md-6">
+
+    <label>Medicine Type</label>
+
+    <select
+        name="medicine_type"
+        class="form-control">
+
+        <option value="Tablet">
+            Tablet
+        </option>
+
+        <option value="Capsule">
+            Capsule
+        </option>
+
+        <option value="Syrup">
+            Syrup
+        </option>
+
+        <option value="Injection">
+            Injection
+        </option>
+
+        <option value="Syringe">
+            Syringe
+        </option>
+
+        <option value="Insulin">
+            Insulin
+        </option>
+
+        <option value="Medical Device">
+            Medical Device
+        </option>
+
+    </select>
+
+</div>
 
                     <input type="text"
                            name="medicine_name"
