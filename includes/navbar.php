@@ -50,6 +50,7 @@
 .admin-dropdown{
     position: relative;
     display: inline-block;
+    z-index: 99999;
 }
 
 .admin-btn{
