@@ -12,50 +12,87 @@
 
         <!-- ADMIN DROPDOWN -->
 
-        <div class="dropdown">
+        <div class="admin-dropdown">
 
-            <button
-            class="btn btn-light dropdown-toggle shadow-sm"
-            type="button"
-            data-bs-toggle="dropdown">
+            <button class="admin-btn">
 
                 <i class="fa-solid fa-user"></i>
                 Admin
+                <i class="fa-solid fa-caret-down"></i>
 
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-end">
+            <div class="admin-dropdown-content">
 
-                <li>
+                <a href="../admin/profile.php">
 
-                    <a class="dropdown-item"
-                       href="../admin/profile.php">
+                    <i class="fa-solid fa-user"></i>
+                    My Profile
 
-                        <i class="fa-solid fa-user"></i>
-                        My Profile
+                </a>
 
-                    </a>
+                <a href="../logout.php" class="text-danger">
 
-                </li>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
 
-                <li><hr class="dropdown-divider"></li>
+                </a>
 
-                <li>
-
-                    <a class="dropdown-item text-danger"
-                       href="../logout.php">
-
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        Logout
-
-                    </a>
-
-                </li>
-
-            </ul>
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+<style>
+
+.admin-dropdown{
+    position: relative;
+    display: inline-block;
+}
+
+.admin-btn{
+
+    background: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+}
+
+.admin-dropdown-content{
+
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.admin-dropdown-content a{
+
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.3s;
+}
+
+.admin-dropdown-content a:hover{
+    background: #f5f5f5;
+}
+
+.admin-dropdown:hover .admin-dropdown-content{
+    display: block;
+}
+
+</style>
