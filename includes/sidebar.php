@@ -143,13 +143,7 @@
 
         <li>
 
-            <a href="<?php echo BASE_URL; ?>logout.php">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                <span>Logout</span>
-
-            </a>
+            
 
         </li>
 
