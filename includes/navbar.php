@@ -6,13 +6,54 @@
 
     <div class="topbar-right">
 
-        <div class="notification">
+        <div class="notification me-3">
             <i class="fa-solid fa-bell"></i>
         </div>
 
-        <div class="admin-profile">
-            <i class="fa-solid fa-user"></i>
-            <span>Admin</span>
+        <!-- ADMIN DROPDOWN -->
+
+        <div class="dropdown">
+
+            <button
+            class="btn btn-light dropdown-toggle shadow-sm"
+            type="button"
+            data-bs-toggle="dropdown">
+
+                <i class="fa-solid fa-user"></i>
+                Admin
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+
+                    <a class="dropdown-item"
+                       href="../admin/profile.php">
+
+                        <i class="fa-solid fa-user"></i>
+                        My Profile
+
+                    </a>
+
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+
+                    <a class="dropdown-item text-danger"
+                       href="../logout.php">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
         </div>
 
     </div>
