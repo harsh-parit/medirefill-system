@@ -69,12 +69,18 @@
     display: none;
     position: absolute;
     right: 0;
+    top: 50px;
+
     background: white;
     min-width: 200px;
+
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
     border-radius: 10px;
+
     overflow: hidden;
-    z-index: 9999;
+
+    z-index: 99999;
 }
 
 .admin-dropdown-content a{
@@ -92,6 +98,10 @@
 
 .admin-dropdown:hover .admin-dropdown-content{
     display: block;
+}
+
+.topbar{
+    overflow: visible !important;
 }
 
 </style>
