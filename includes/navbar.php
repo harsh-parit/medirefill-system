@@ -6,9 +6,7 @@
 
     <div class="topbar-right">
 
-        <div class="notification me-3">
-            <i class="fa-solid fa-bell"></i>
-        </div>
+        
 
         <!-- ADMIN DROPDOWN -->
 
